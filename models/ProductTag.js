@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const { truncate } = require('./Category');
 
-class ProductTag extends Model {}
+class ProductTag extends Model {};
 
 ProductTag.init(
   {
