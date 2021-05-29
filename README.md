@@ -36,3 +36,7 @@ N/A
 noahschnur@gmail.com, https://github.com/noahschnur
 
 https://github.com/noahschnur/ecommerce
+
+https://www.youtube.com/watch?v=nMLXOn4t33U
+
+[![Alt Text](https://img.youtube.com/vi/nMLXOn4t33U/0.jpg)](https://www.youtube.com/watch?v=nMLXOn4t33U)
