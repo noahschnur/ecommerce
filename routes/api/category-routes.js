@@ -1,20 +1,17 @@
 const router = require("express").Router();
 const { Category, Product } = require("../../models");
 
-// get all catagories
+// api/categories
+
+// get all categories
 router.get("/", (req, res) => {
-  Category.findAll({})
+  Category.findAll({
+    // include: [Prduct]
+  })
     .then((dbCategoryData) => {
       console.log(dbCategoryData);
-      res.render(dbCategoryData);
+      res.json(dbCategoryData);
     })
-    .then(
-      Product.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -25,6 +22,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   Category.findOne({
     where: { id: req.params.id },
+    include: [Product]
   })
     .then((dbCategoryData) => {
       if (!dbCategoryData) {
@@ -33,13 +31,6 @@ router.get("/:id", (req, res) => {
       }
       res.json(dbCategoryData);
     })
-    .then(
-      Product.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);

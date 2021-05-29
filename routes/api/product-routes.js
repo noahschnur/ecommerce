@@ -5,27 +5,15 @@ const { Product, Category, Tag, ProductTag } = require("../../models");
 
 // get all products
 router.get("/", (req, res) => {
-  Product.findAll({})
+  Product.findAll({
+    include: [Category, {model: Tag, through: ProductTag}]
+  })
     .then((dbProductData) => {
       console.log(dbProductData);
-      res.render(dbProductData);
+      res.json(dbProductData);
     })
-    .then(
-      Category.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
-    .then(
-      Tag.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
     .catch((err) => {
-      console.log(err);
+      console.log(err, "this is the error");
       res.status(500).json(err);
     });
 });
@@ -34,6 +22,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   Product.findOne({
     where: { id: req.params.id },
+    include: [Category, {model: Tag, through: ProductTag}]
   })
     .then((dbProductData) => {
       if (!dbProductData) {
@@ -42,20 +31,6 @@ router.get("/:id", (req, res) => {
       }
       res.json(dbProductData);
     })
-    .then(
-      Category.findOne({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
-    .then(
-      Tag.findOne({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);

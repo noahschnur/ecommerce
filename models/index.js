@@ -9,10 +9,10 @@ Product.belongsTo(Category, {foreignKey: 'category_id'});
 
 Category.hasMany(Product, {foreignKey: 'category_id'});
 
-Product.belongsToMany(Tag, {foreignKey: 'product_tag_id'}); 
+Product.belongsToMany(Tag, {through: ProductTag, foreignKey: 'product_tag_id'}); 
 // add cascade on delete?
 
-Tag.belongsToMany(Product, {foreignKey: 'product_tag_id'});
+Tag.belongsToMany(Product, {through: ProductTag, foreignKey: 'product_tag_id'});
 
 module.exports = {
   Product,

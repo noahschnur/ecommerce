@@ -4,25 +4,13 @@ const { Tag, Product, ProductTag } = require('../../models');
 // The `/api/tags` endpoint
 
 router.get('/', (req, res) => {
-  Tag.findAll({})
+  Tag.findAll({
+    include: [{model: Product, through: ProductTag}]
+  })
     .then((dbTagData) => {
       console.log(dbTagData);
-      res.render(dbTagData);
+      res.json(dbTagData);
     })
-    .then(
-      Product.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
-    .then(
-      ProductTag.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -32,6 +20,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   Tag.findOne({
     where: { id: req.params.id },
+    include: [{model: Product, through: ProductTag}]
   })
     .then((dbTagData) => {
       if (!dbTagData) {
@@ -40,20 +29,6 @@ router.get('/:id', (req, res) => {
       }
       res.json(dbTagData);
     })
-    .then(
-      Product.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
-    .then(
-      ProductTag.findAll({
-        where: {
-          id: req.params.id,
-        },
-      })
-    )
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
